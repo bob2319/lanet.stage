@@ -27,6 +27,52 @@ Author: Lanet Click corp
 }
 
 @media only screen and (max-width: 1024px) {
+
+	.popup-contentm, 
+	.popup-content-tnxm, 
+	.popup-content-tnxf{
+		width: 100%;
+		padding: 20px 0;
+	}
+	.footer-form,
+	.contact-f .row-f{
+		flex-direction: column;
+		justify-content: center;
+	}
+	.form-right, 
+	.form-left{
+		width: 100%;
+		gap: 20px;
+	}
+	.col-md-4-2{
+		width: auto;
+		padding: 40px 15px 60px;
+	}
+	.contact-f .row-f .fixet-position{
+		margin: 0 auto;
+	}
+
+	.h1pp1 {
+		font-size: 18px;
+		font-weight: 900;
+		line-height: 30px;
+		text-align: center;
+	}
+	
+	.header-fields .input-wrapper input{
+		min-width: auto;
+	}
+
+	.formpp .header-fields {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.slaider-media-wrapper .slider-item {
+		max-width: 48%;
+	}
+
 	.logo-wrapp img {
 		width: 118px;
 		object-fit: fill;
@@ -71,10 +117,67 @@ Author: Lanet Click corp
 }
 
 @media only screen and (max-width: 768px) {
-	header .container {}
+
+	.popup .close-btn {
+		font-size: 13px;
+		padding: 0;
+	}
+
+	.popup .h1pp3 {
+		font-size: 18px;
+		line-height: 30px;
+	}
+
+	.slaider-media h3 {
+		font-size: 26px;
+		font-weight: 900;
+		line-height: 38px;
+	}
+
+	.slaider-media-wrapper {
+		gap: 0;
+	}
+
+	.slaider-media-wrapper .slider-item {
+		gap: 20px;
+	}
+
+	.slider-media-content {
+		font-size: 16px;
+		line-height: 26px;
+	}
+
+	.slaider-media {
+		margin-bottom: 60px;
+	}
+
+
+
+	.slaider-media-wrapper .slider-item {
+		display: flex;
+		flex-direction: column;
+		margin-right: 0;
+		max-width: 100%;
+	}
+
+	.slaider-media-wrapper .slider-item img {
+		padding-bottom: 0;
+	}
+
+	.line-slider {
+		margin-top: 10px;
+	}
+
+	.slaider-media .slick-dotted.slick-slider {
+		margin-bottom: 60px;
+	}
 
 	.f-text1 {
 		padding: 110px 0 0 0;
+	}
+
+	.slaider-media-wrapper {
+		padding: 40px 0;
 	}
 }
 
@@ -120,6 +223,8 @@ Author: Lanet Click corp
 }
 
 @media only screen and (min-width: 376px) and (max-width: 1439px) {
+
+
 	.trih-p2 {
 		font-size: calc(9px + (5 + 5 * 0.7) *(100vw - 478px) / 1359);
 	}
@@ -146,7 +251,7 @@ Author: Lanet Click corp
 		width: auto;
 	}
 
-	.col-md-2-1>.case-img {
+	.col-md-2-1 > .case-img {
 		width: calc(480px + (100 + 100 * 0.7) *(100vw - 376px) / 1439);
 		height: auto;
 		margin: 0;
@@ -161,17 +266,20 @@ Author: Lanet Click corp
 	}
 
 	.popup .close-btn {
-		font-size: calc(10px + (5 + 5 * 0.7) *(100vw - 376px) / 1359);
 		padding: 10px 0px 0 0;
 	}
 
 	.h1pp3 {
-		font-size: calc(25px + (5 + 5 * 0.7) *(100vw - 376px) / 1359);
 		line-height: 1;
 	}
 
 	#popup-formm .col-md-c7pp-1 {
 		width: 100%;
+	}
+
+	#popup-formm form {
+		max-width: 300px;
+		margin: 0 auto;
 	}
 
 	.pppmain {
@@ -203,8 +311,6 @@ Author: Lanet Click corp
 	}
 
 	.h1pp1 {
-		font-size: calc(25px + (5 + 5 * 0.7) *(100vw - 320px) / 1359);
-		line-height: 1.8;
 		padding: 50px 0 20px 0;
 	}
 
@@ -249,14 +355,7 @@ Author: Lanet Click corp
 		width: 100%
 	}
 
-	.col-md-4-1 {
-		width: calc(30% + (5 + 5 * 0.7) *(100vw - 376px) / 1359);
-	}
 
-	.col-md-4-2 {
-		width: calc(60% - (7 + 7 * 0.7) *(100vw - 376px) / 1359);
-		padding: 20px 24px;
-	}
 
 	.smal-l,
 	.big-l,
@@ -618,6 +717,11 @@ Author: Lanet Click corp
 		line-height: 1;
 	}
 
+	.slaider-media h3 {
+		line-height: 1;
+		font-size: 40px;
+	}
+
 	.vid-cenosti {
 		width: 90%;
 	}
@@ -762,23 +866,23 @@ Author: Lanet Click corp
 		min-height: 400px;
 	}
 
+	#loading-indicatorb,
 	#loading-indicatorb1 {
 		background: #11222C80;
-		position: relative;
+		position: absolute;
 		z-index: 1;
 		width: 100%;
-		margin-bottom: -455px;
-		min-height: 455px;
+		margin: 0;
+		top: 0;
+		left: 0;
+		display: none;
+		justify-content: center;
+		align-items: center;
+		bottom: 0;
+		right: 0;
 	}
 
-	#loading-indicatorb {
-		background: #11222C80;
-		position: relative;
-		z-index: 1;
-		width: 100%;
-		margin-bottom: -360px;
-		min-height: 360px;
-	}
+
 
 	.wpcf7-not-valid-tip {
 		margin-top: -15px;
@@ -796,11 +900,17 @@ Author: Lanet Click corp
 
 	#loading-indicatorb2 {
 		background: #11222C80;
-		position: relative;
+		position: absolute;
 		z-index: 1;
 		width: 100%;
-		margin-bottom: -520px;
-		min-height: 520px;
+		margin: 0;
+		top: 0;
+		left: 0;
+		display: none;
+		justify-content: center;
+		align-items: center;
+		bottom: 0;
+		right: 0;
 	}
 }
 
@@ -1047,11 +1157,17 @@ Author: Lanet Click corp
 
 	#loading-indicatorb {
 		background: #11222C80;
-		position: relative;
+		position: absolute;
 		z-index: 1;
 		width: 100%;
-		margin-bottom: -330px;
-		min-height: 330px;
+		margin: 0;
+		top: 0;
+		left: 0;
+		display: none;
+		justify-content: center;
+		align-items: center;
+		bottom: 0;
+		right: 0;
 	}
 
 	#loading-indicators2 {
@@ -1065,11 +1181,17 @@ Author: Lanet Click corp
 
 	#loading-indicatorb2 {
 		background: #11222C80;
-		position: relative;
+		position: absolute;
 		z-index: 1;
 		width: 100%;
-		margin-bottom: -490px;
-		min-height: 490px;
+		margin: 0;
+		top: 0;
+		left: 0;
+		display: none;
+		justify-content: center;
+		align-items: center;
+		bottom: 0;
+		right: 0;
 	}
 }
 
@@ -1759,11 +1881,6 @@ Author: Lanet Click corp
 		display: none;
 	}
 
-	.col-md-4-2k {
-		width: 100%;
-		padding: 0 40px 100px 40px;
-	}
-
 	.col-md-4-1k {
 		width: 100%;
 		height: 470px
@@ -1852,11 +1969,17 @@ Author: Lanet Click corp
 
 	#loading-indicatorb {
 		background: #11222C80;
-		position: relative;
+		position: absolute;
 		z-index: 1;
 		width: 100%;
-		margin-bottom: -330px;
-		min-height: 330px;
+		margin: 0;
+		top: 0;
+		left: 0;
+		display: none;
+		justify-content: center;
+		align-items: center;
+		bottom: 0;
+		right: 0;
 	}
 
 }
@@ -1871,12 +1994,6 @@ Author: Lanet Click corp
 	.col-md-4-1 {
 		width: 100%
 	}
-
-	.col-md-4-2 {
-		width: 100%;
-		padding: 20px 24px;
-	}
-
 	.smal-l,
 	.big-l,
 	.send-c,
@@ -2198,11 +2315,17 @@ Author: Lanet Click corp
 
 	#loading-indicatorb2 {
 		background: #11222C80;
-		position: relative;
+		position: absolute;
 		z-index: 1;
 		width: 100%;
-		margin-bottom: -500px;
-		min-height: 500px;
+		margin: 0;
+		top: 0;
+		left: 0;
+		display: none;
+		justify-content: center;
+		align-items: center;
+		bottom: 0;
+		right: 0;
 	}
 }
 
@@ -2362,11 +2485,17 @@ Author: Lanet Click corp
 
 	#loading-indicatorb {
 		background: #11222C80;
-		position: relative;
+		position: absolute;
 		z-index: 1;
 		width: 100%;
-		margin-bottom: -330px;
-		min-height: 330px;
+		margin: 0;
+		top: 0;
+		left: 0;
+		display: none;
+		justify-content: center;
+		align-items: center;
+		bottom: 0;
+		right: 0;
 	}
 
 }
@@ -2920,6 +3049,7 @@ Author: Lanet Click corp
 		padding: 60px 16px;
 	}
 
+	.slaider-media h3,
 	.zagblock h2 {
 		font-size: 26px;
 		line-height: 38px;
@@ -2932,11 +3062,11 @@ Author: Lanet Click corp
 
 	.zagblock {
 		padding: 60px 16px;
+		margin: 0;
 	}
 
 	.zavdannya {
 		padding: 60px 16px;
-		margin:0;
 	}
 
 	.vidy-sama {
@@ -3095,20 +3225,32 @@ Author: Lanet Click corp
 
 	#loading-indicatorb1 {
 		background: #11222C80;
-		position: relative;
+		position: absolute;
 		z-index: 1;
 		width: 100%;
-		margin-bottom: -460px;
-		min-height: 460px;
+		margin: 0;
+		top: 0;
+		left: 0;
+		display: none;
+		justify-content: center;
+		align-items: center;
+		bottom: 0;
+		right: 0;
 	}
 
 	#loading-indicatorb {
 		background: #11222C80;
-		position: relative;
+		position: absolute;
 		z-index: 1;
 		width: 100%;
-		margin-bottom: -320px;
-		min-height: 320px;
+		margin: 0;
+		top: 0;
+		left: 0;
+		display: none;
+		justify-content: center;
+		align-items: center;
+		bottom: 0;
+		right: 0;
 	}
 
 	#loading-indicators2 {
@@ -3122,11 +3264,17 @@ Author: Lanet Click corp
 
 	#loading-indicatorb2 {
 		background: #11222C80;
-		position: relative;
+		position: absolute;
 		z-index: 1;
 		width: 100%;
-		margin-bottom: -500px;
-		min-height: 500px;
+		margin: 0;
+		top: 0;
+		left: 0;
+		display: none;
+		justify-content: center;
+		align-items: center;
+		bottom: 0;
+		right: 0;
 	}
 
 	.wpcf7-not-valid-tip {
@@ -3920,16 +4068,10 @@ Author: Lanet Click corp
 
 .smal-l {
 	width: 100%;
-	margin-right: 30px;
 	height: 52px;
-	font-family: 'HeliosExt';
-	font-style: normal;
-	font-weight: 400;
 	font-size: 14px;
-	line-height: 22px;
 	color: #6B6FBB;
 	padding-left: 15px;
-	margin-bottom: 20px;
 	border: 0;
 }
 
@@ -4386,7 +4528,7 @@ Author: Lanet Click corp
 .faq {
 	padding: 60px 16px;
 }
-.faq h3,
+
 .faq h2 {
 	font-size: 28px;
 	line-height: 38px;
@@ -4843,20 +4985,32 @@ Author: Lanet Click corp
 
 	#loading-indicatorb {
 		background: #11222C80;
-		position: relative;
+		position: absolute;
 		z-index: 1;
 		width: 100%;
-		margin-bottom: -320px;
-		min-height: 320px;
+		margin: 0;
+		top: 0;
+		left: 0;
+		display: none;
+		justify-content: center;
+		align-items: center;
+		bottom: 0;
+		right: 0;
 	}
 
 	#loading-indicatorb1 {
 		background: #11222C80;
-		position: relative;
+		position: absolute;
 		z-index: 1;
 		width: 100%;
-		margin-bottom: -570px;
-		min-height: 570px;
+		margin: 0;
+		top: 0;
+		left: 0;
+		display: none;
+		justify-content: center;
+		align-items: center;
+		bottom: 0;
+		right: 0;
 	}
 
 	#loading-indicator {
@@ -5048,8 +5202,7 @@ Author: Lanet Click corp
 		position: relative;
 	}
 
-	.bjola1 {
-	}
+	.bjola1 {}
 
 	.f-text3 {
 		padding: 0;
@@ -5512,10 +5665,6 @@ Author: Lanet Click corp
 		padding-bottom: 40px;
 	}
 
-	.col-md-4-2 {
-		width: 100%;
-		padding: 40px 20px;
-	}
 
 	.col-md-4-1 {
 		width: 100%
@@ -5547,16 +5696,13 @@ Author: Lanet Click corp
 
 	.smal-l {
 		width: 90%;
-		margin-right: 30px;
 		height: 52px;
 		font-family: 'HeliosExt';
 		font-style: normal;
 		font-weight: 400;
 		font-size: 14px;
-		line-height: 22px;
 		color: #6B6FBB;
 		padding-left: 30px;
-		margin-bottom: 20px;
 		border: 0;
 	}
 
@@ -7016,10 +7162,6 @@ Author: Lanet Click corp
 		width: 100%
 	}
 
-	.col-md-4-2 {
-		width: 100%;
-		padding: 20px 24px;
-	}
 
 	.smal-l,
 	.big-l,
@@ -7639,7 +7781,6 @@ Author: Lanet Click corp
 	}
 
 	.smal-l {
-		margin-right: 30px;
 		height: 52px;
 		font-family: 'HeliosExt';
 		font-style: normal;
@@ -7648,7 +7789,6 @@ Author: Lanet Click corp
 		line-height: 22px;
 		color: #6B6FBB;
 		padding-left: 30px;
-		margin-bottom: 20px;
 		border: 0;
 	}
 
@@ -7678,12 +7818,6 @@ Author: Lanet Click corp
 		border: 0;
 		margin-top: 30px;
 	}
-
-	.col-md-4-2 {
-		width: 85%;
-		padding: 40px 20px;
-	}
-
 	.slide3 {
 		padding: 0 30px 30px 30px;
 		width: 240px !important;
@@ -7727,11 +7861,6 @@ Author: Lanet Click corp
 		padding: 10px 0px 0 0;
 	}
 
-	.h1pp3 {
-		font-size: calc(18px + (5 + 5 * 0.7) *(100vw - 320px) / 1359);
-		line-height: 1.3;
-	}
-
 	#popup-formm .col-md-c7pp-1 {
 		width: 100%;
 	}
@@ -7768,7 +7897,7 @@ Author: Lanet Click corp
 	}
 
 	.h1pp1 {
-		font-size: calc(25px + (5 + 5 * 0.7) *(100vw - 320px) / 1359);
+		font-size: 18px;
 		line-height: 1.8;
 		padding: 50px 0 20px 0;
 	}
