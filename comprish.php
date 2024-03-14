@@ -401,7 +401,7 @@ if (!empty($image)) {
 				<img loading="lazy" class="bjola-nab" src="<?php the_field('bdzhola_iz_shlyahomp_nab_r'); ?>">
 				<img loading="lazy" class="bjola-nab-m" src="<?php the_field('bdzhola_iz_shlyahom_nab_r_m'); ?>">
 			</div>
-			<div class="col-md-n-2">
+			<div class="col-md-n-2 select-list">
 				<?php if( have_rows('1nab_nab_r') ): ?>
     <?php $index = 0; ?>
     <?php while( have_rows('1nab_nab_r') ): the_row(); 
@@ -421,53 +421,11 @@ if (!empty($image)) {
     <?php $index++; ?>
     <?php endwhile; ?>
 <?php endif; ?>
-				<a class="cta-b-a" data-form-name="nab-rish"><?php _e('Wanna order', 'lanetclick');?></a>
+				<a class="cta-b" data-form-name="nab-rish"><?php _e('Wanna order', 'lanetclick');?></a>
 				</div>
 </div>
 </div>	
 </div>
-<script>
-	 document.addEventListener("DOMContentLoaded", function() {
-  // Прикрепляем событие клика к кнопке
-  document.querySelector('.cta-b-a').addEventListener('click', function() {
-    let selectedOptions = [];
-
-    // Собираем выбранные опции
-    for(let i = 0; i < 5; i++) {
-      let select = document.getElementById('control-select-' + i);
-      if(select) {
-        let selectedOption = select.options[select.selectedIndex];
-
-        // Исключаем опции с классами 'default-option' и 'mobile-default'
-        if(!selectedOption.classList.contains('default-option') && !selectedOption.classList.contains('mobile-default')) {
-          selectedOptions.push(selectedOption.value);
-        } else {
-          // Очищаем значение выбранного элемента, если он имеет класс 'mobile-default'
-          if(selectedOption.classList.contains('mobile-default')) {
-            select.selectedIndex = -1; // сбросить выбранное значение
-          }
-        }
-      }
-    }
-
-    // Находим скрытый элемент input и устанавливаем значение
-    let inputElement = document.getElementById('selected_options');
-    if(inputElement) {
-      inputElement.value = selectedOptions.join(', ');
-    } else {
-      console.error('Element "selected_options" not found');
-    }
-
-    // Находим видимый элемент и устанавливаем значение
-    let displayElement = document.getElementById('selected-options');
-    if(displayElement) {
-      displayElement.textContent = selectedOptions.join(', ');
-    } else {
-      console.error('Element "selected-options" not found');
-    }
-  });
-});
-</script>
 <script>
 	$(document).ready(function() {
   function checkWidth() {

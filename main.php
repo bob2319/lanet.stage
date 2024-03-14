@@ -4,6 +4,9 @@ Template Name: Головна
 */
 ?>
 <?php get_header(); ?>
+<?php 
+    $current_lang = ICL_LANGUAGE_CODE;
+   ?>
 <div class="first-scr">
   <div class="f-text1">
     <a href="<?php the_field('fraza1url'); ?>" class="f-1"><?php
@@ -50,17 +53,29 @@ Template Name: Головна
     }
     ?>
     <img class="str1" src="/wp-content/uploads/2023/03/strelka1.svg">
-    <a href="<?php the_field('fraza5url'); ?>" class="f-5"><?php
-                                                            $my_textarea = get_field('fraza_slajderu5');
-                                                            if ($my_textarea) {
-                                                              echo $my_textarea;
-                                                            }
-                                                            ?>
+    <a href="<?php the_field('fraza5url'); ?>" class="f-5">
+      <?php
+      $my_textarea = get_field('fraza_slajderu5');
+      if ($my_textarea) {
+        echo $my_textarea;
+      }
+      ?>
     </a>
   </div>
   <div class="f-text4">
     <h5 class="text4f"><?php the_field('tekstdop_dlya_slajderu_home'); ?></h5>
-    <div class="btn-first-nor"><button class="btn-mfirst" data-form-name="first-scr" href="<?php the_field('posylannya_knopky_slajdera_home'); ?>"><?php the_field('tekst_knopky_slajderu_home'); ?></button></div>
+    <div class="btn-first-nor">
+      <?php
+      $data_id = 1;
+      if ('en' == $current_lang) {
+        $data_id = 3;
+      } elseif ('ru' == $current_lang) {
+        $data_id = 2;
+      }
+      ?>
+      <button class="btn-mfirst" data-form-id="<?php echo $data_id; ?>" data-form-name="first-scr" href="<?php the_field('posylannya_knopky_slajdera_home'); ?>"><?php the_field('tekst_knopky_slajderu_home'); ?>
+      </button>
+    </div>
   </div>
   <div class="f-text5">
     <div class="f-text5-l"></div>
@@ -145,9 +160,14 @@ Template Name: Головна
           </div>
         </div>
         <?php
-        //icl_register_string('idol', 'btn-slug', 'Order');
+        $data_id = 4;
+        if ('en' == $current_lang) {
+          $data_id = 6;
+        } elseif ('ru' == $current_lang) {
+          $data_id = 5;
+        }
         ?>
-        <a class="cta-b" href="#" data-form-name="blocks-pc-main-page">
+        <a class="cta-b" data-form-id="<?php echo $data_id;?>" href="#" data-form-name="blocks-pc-main-page">
           <?php echo __('Contact us', 'idol'); ?>
         </a>
 
@@ -208,7 +228,15 @@ Template Name: Головна
           </div>
         </div>
       </div>
-      <a class="cta-b" href="#">
+      <?php
+      $data_id = 0;
+      if ('en' == $current_lang) {
+        $data_id = 0;
+      } elseif ('ru' == $current_lang) {
+        $data_id = 0;
+      }
+      ?>
+      <a data-form-name="how-we-worck" data-form-id="<?php echo 0;?>" class="cta-b" href="#">
         <?php echo __('Contact us', 'idol'); ?>
       </a>
     </div>
@@ -351,7 +379,17 @@ Template Name: Головна
       </div>
       <div class="col-md-3-2">
         <div class="cta-o"><?php the_field('opys_cta'); ?></div>
-        <a class="cta-b" data-form-name="cta"><?php the_field('tekst_na_knopczi_sta'); ?></a>
+        <?php
+      $data_id = 4;
+      if ('en' == $current_lang) {
+        $data_id = 6;
+      } elseif ('ru' == $current_lang) {
+        $data_id = 5;
+      }
+      ?>
+        <a class="cta-b" data-form-name="cta" data-form-id="<?php echo $data_id;?>">
+          <?php the_field('tekst_na_knopczi_sta'); ?>
+        </a>
       </div>
     </div>
   </div>
