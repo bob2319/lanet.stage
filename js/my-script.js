@@ -173,6 +173,8 @@ $('.form-btn').on('click', function (e) {
         'source_id': formID,
         'helpers_form': helpers_form,
     };
+
+    console.log(formData);
     // Для старой формы
     if (form.closest('#popup-formm').length) {
         formData.url = siteURL.val(); // Добавляем URL для старой формы
