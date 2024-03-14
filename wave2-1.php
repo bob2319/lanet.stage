@@ -799,23 +799,13 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 <script>
     $(document).ready(function() {
-  $('.opty-copy').each(function() {
-    var $h3 = $(this).find('h3');
-    if ($h3.text().trim() === '') {
-      $(this).hide();
-    }
-  });
+
 });
 
 </script>
 <script>
     $(document).ready(function() {
-  $('.etapy-ssp').each(function() {
-    var $h2 = $(this).find('h2');
-    if ($h2.text().trim() === '') {
-      $($h2).hide();
-    }
-  });
+
 });
 </script>
 <script>

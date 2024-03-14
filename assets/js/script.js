@@ -1,6 +1,7 @@
 jQuery( 'form[name="mp-subscribe-form"]' ).on( 'submit', function() {
     var form_data = jQuery( this ).serializeArray();
     form_data.push( { "name" : "security", "value" : ajax_nonce } );
+ 
     jQuery.ajax({
         url: ajax_url,
         type: 'post',
@@ -59,5 +60,3 @@ jQuery( 'form[name="mp-subscribe-form"]' ).on( 'submit', function() {
     // This return prevents the submit event to refresh the page.
     return false;
 });
-
-

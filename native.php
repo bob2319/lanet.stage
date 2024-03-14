@@ -245,7 +245,7 @@ if (!empty($image)) {
         <div class="col-md-m-2">
             <h4><?php the_field('why_zag_ssp'); ?></h4>
             <p class="masthev-t"><?php the_field('why_its_tekst_ssp'); ?></p>
-            <button class="btn-first masthev-b cta-b" data-form-name="masthev-ssp"><?php the_field('tekst_na_knopczi'); ?></button>
+            <button class="btn-first masthev-b" data-form-name="masthev-ssp"><?php the_field('tekst_na_knopczi'); ?></button>
         </div>
 </div></div>
     <div style="display:none !important"class="ad_nab">

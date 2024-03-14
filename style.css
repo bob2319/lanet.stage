@@ -321,10 +321,6 @@ p{
 	transform: translateX(10px);}
 #blocks-mob{display:none;}
 	#blocks-pc{display:block;}
-
-	#blocks-pc .cta-b{
-		margin-top: 50px;
-	}
 .sliderf > .slick-list > .slick-track > .slidef{
 	padding:113px 50px 50px 50px;
 	margin-left:15px;
@@ -4386,3 +4382,4 @@ blockquote:before{
 .container-404 .btn-mfirst{padding:13px 94px;}
 .cta-b{cursor:pointer;}
 .wpcf7-not-valid-tip{color: #FE1515;font-family: 'HeliosExt';font-size: 12px;font-style: normal;font-weight: 400;line-height: normal;margin-top: -25px;padding-bottom: 25px;}
+

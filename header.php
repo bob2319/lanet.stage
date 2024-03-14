@@ -14,28 +14,16 @@
   <link rel="preload" href="/wp-content/themes/lanetclick/css/slick.css" as="style" onload="this.rel='stylesheet'">
   <!--<link rel="stylesheet" href="/wp-content/themes/lanetclick/css/responsive-min.css" media="all" type="text/css"/>-->
   <link rel="preload" href="/wp-content/themes/lanetclick/css/responsive-min.css" as="style" media="(max-width: 1800px)" onload="this.rel='stylesheet'">
-  <link rel="preload" href="<?php echo get_template_directory_uri()?>/css/responsive-style.css" as="style" onload="this.rel='stylesheet'">
   <link rel="preload" href="/wp-content/themes/lanetclick/css/slick-theme.css" as="style" onload="this.rel='stylesheet'">
   <link rel="preload" href="/wp-content/themes/lanetclick/css/swiper-bundle.min.css" as="style" onload="this.rel='stylesheet'">
   <!--<link rel="stylesheet" type="text/css" href="/wp-content/themes/lanetclick/css/slick-theme.css"/>-->
   <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
   <?php wp_head(); ?>
-<!-- Последняя версия jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-<!-- Последняя версия Cleave.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
-
+  <script type="text/javascript" src="/wp-content/themes/lanetclick/js/jquery-1.12.4.min.js"></script>
+  <script type="text/javascript" src="/wp-content/themes/lanetclick/js/jquery-migrate-1.2.1.min.js"></script>
   <script src="/wp-content/themes/lanetclick/js/swiper-bundle.min.js"></script>
   <script defer type="text/javascript" src="/wp-content/themes/lanetclick/js/slick.min.js"></script>
-  <link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-/>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<!-- Ваш HTML-файл -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
-<script defer type="text/javascript" src="/wp-content/themes/lanetclick/js/my-script.js"></script>
+  <script defer type="text/javascript" src="/wp-content/themes/lanetclick/js/my-script.js"></script>
 
   <!-- Google Tag Manager -->
   <script>
@@ -58,12 +46,10 @@
   <?php if (is_page('blog') || is_category()) : ?>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <?php endif; ?>
-  <?php 
-    $current_lang = ICL_LANGUAGE_CODE;
-   ?>
+
 </head>
 
-<body data-lang="<?php echo $current_lang;?>" <?php body_class(); ?>>
+<body <?php body_class(); ?>>
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P9SRHJM" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
@@ -72,6 +58,57 @@
   <?php endif; ?>
 
   <div class="wrapper">
+    <div id="popup-form" class="popup">
+      <div class="popup-content">
+        <span class="close-btn">
+          <?php _e('Close', 'lanetclick'); ?>
+        </span>
+        <div class="h1pp1">
+          <?php the_field('h1pp1', 'options'); ?>
+        </div>
+        <div class=formpp>
+          <?php echo do_shortcode('[contact-form-7 id="33092" title="form pp"]'); ?></div>
+      </div>
+      <div class="popup-content-tnx" style="display: none;">
+        <span class="close-btn">
+          <?php _e('Close', 'lanetclick'); ?>
+        </span>
+        <div class="h1pptnx">
+          <?php the_field('h1pptnx', 'options'); ?>
+        </div>
+        <p class="ppptnx">
+          <?php the_field('p_hopup_tnx', 'options'); ?>
+        </p>
+      </div>
+    </div>
+    <div id="popup-formm" class="popup">
+      <div class="popup-contentm">
+        <span class="close-btn">
+          <?php _e('Close', 'lanetclick'); ?>
+        </span>
+        <div class="h1pp3">
+          <?php the_field('h1pp3', 'options'); ?>
+        </div>
+        <div class=formppm>
+          <?php echo do_shortcode('[contact-form-7 id="33118" title="form mainp"]'); ?></div>
+        <p class="pppmain">
+          <?php the_field('p_hopup_main', 'options'); ?>
+        </p>
+      </div>
+      <div class="popup-content-tnxm" style="display: none;">
+        <span class="close-btn">
+          <?php _e('Close', 'lanetclick'); ?>
+        </span>
+        <div class="h1pptnx">
+          <?php the_field('h1pptnx', 'options'); ?>
+        </div>
+        <p class="ppptnx">
+          <?php the_field('p_hopup_tnx', 'options'); ?>
+        </p>
+      </div>
+    </div>
+
+
     <div id="page">
       <!-- Шапка -->
       <header>
@@ -110,17 +147,9 @@
               <?php //endif; 
               ?>
             </div>
-                <?php
-                  $data_id = 10;
-                  if( 'en' == $current_lang ){
-                    $data_id = 11;
-                  }
-                  elseif( 'ru' == $current_lang ){
-                    $data_id = 12;
-                  }
-                ?>
+
             <div class="header-btn-wrapper">
-              <span data-form-ID="<?php echo $data_id;?>" data-form-name='header-right-content' class='header-btn'>
+              <span data-form-name='header-right-content' class='header-btn'>
                 <p>
                   <?php echo __('Get audit', 'idol'); ?>
                 </p>

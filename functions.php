@@ -856,8 +856,6 @@ if (!function_exists('mp_subscribe_form_javascript_variables')) {
             }
             add_action('init', 'register_author_name_for_wpml');
 
-
-
             add_filter('aioseo_breadcrumbs_trail', 'customize_aioseo_author_breadcrumbs');
 
             function customize_aioseo_author_breadcrumbs($trail)
@@ -1018,6 +1016,10 @@ if (!function_exists('mp_subscribe_form_javascript_variables')) {
 
             function cf7_ajax_submit()
             {
+
+                var_dump('cf7_ajax_submit');
+                var_dump($_POST);
+
                 session_start();
                 // Отладочная информация о сессии
                 $session_debug_info = [
@@ -1053,7 +1055,8 @@ if (!function_exists('mp_subscribe_form_javascript_variables')) {
 
                 // Отправка формы
                 $result = $cf7->submit();
-                if (is_object($result) && $result->is('mail_sent')) {
+
+                if ($result->is('mail_sent')) {
                     // Обновляем время отправки в сессии
                     $_SESSION['form_submitted_time'] = time();
                     echo json_encode([
@@ -1107,25 +1110,21 @@ if (!function_exists('mp_subscribe_form_javascript_variables')) {
                 }
                 // Проверка и очистка полученных данных
                 if (isset($_POST['utm_data'])) {
-                    // Декодирование JSON-строки в ассоциативный массив
                     $utm_data_raw = json_decode(stripslashes($_POST['utm_data']), true);
 
-                    // Проверка, является ли декодированный массив массивом
-                    if (is_array($utm_data_raw)) {
-                        // Инициализация массива в сессии, если он еще не существует
-                        if (!isset($_SESSION['utm_data'])) {
-                            $_SESSION['utm_data'] = array();
+                    // Убедитесь, что данные UTM содержатся внутри структуры 'list'
+                    if (isset($utm_data_raw['list']) && is_array($utm_data_raw['list'])) {
+                        $utm_data = $utm_data_raw['list']; // Теперь $utm_data будет содержать ваш массив UTM-параметров
+
+                        // Создание нового массива для хранения очищенных UTM данных
+                        $_SESSION['utm_data'] = array(); // Инициализация массива в сессии
+
+                        // Очистка данных перед сохранением в сессию
+                        foreach ($utm_data as $key => $value) {
+                            $_SESSION['utm_data'][$key] = sanitize_text_field($value); // Сохранение каждого значения в массиве 'utm_data'
                         }
 
-                        // Очистка и сохранение каждого значения UTM-параметров в сессии
-                        foreach ($utm_data_raw as $key => $value) {
-                            // Здесь используйте функцию для очистки данных. В WordPress это может быть sanitize_text_field,
-                            // но вне WordPress вам нужно будет заменить это на соответствующую функцию.
-                            $_SESSION['utm_data'][$key] = sanitize_text_field($value);
-                        }
-
-                        // Возвращение сохраненных UTM данных
-                        wp_send_json_success($_SESSION['utm_data']);
+                        wp_send_json_success($_SESSION['utm_data']); // Возвращение сохраненных UTM данных
                     } else {
                         wp_send_json_error('UTM data format is incorrect');
                     }
@@ -1135,126 +1134,160 @@ if (!function_exists('mp_subscribe_form_javascript_variables')) {
 
                 wp_die();
             }
-            function formatPhoneNumber($phoneNumber)
-            {
-                // Удаляем все символы, кроме цифр и плюса
-                $phoneNumber = preg_replace('/[^0-9+]/', '', $phoneNumber);
 
-                // Убеждаемся, что плюс находится в начале строки, если он там есть
-                if (substr($phoneNumber, 0, 1) !== '+') {
-                    $phoneNumber = '+' . $phoneNumber;
+            //NETHUNT
+            add_action('wpcf7_before_send_mail', 'send_to_nethunt_crm');
+            function send_to_nethunt_crm($contact_form)
+            {
+                // Проверка nonce
+                if (isset($_POST['my_nonce']) && !wp_verify_nonce($_POST['my_nonce'], 'my-nonce')) {
+                    // Можете здесь добавить логирование или другую обработку ошибки
+                    return;
                 }
+                $log_file = ABSPATH . 'nethunt_crm_log.txt'; // Путь к файлу лога
 
-                return $phoneNumber;
-            }
-            // Для зарегистрированных пользователей
-            add_action('wp_ajax_submit_form_data_ajax_handler', 'submit_form_data_ajax_handler');
-            // Для незарегистрированных пользователей
-            add_action('wp_ajax_nopriv_submit_form_data_ajax_handler', 'submit_form_data_ajax_handler');
+                $submission = WPCF7_Submission::get_instance();
+                if ($submission) {
+                    $posted_data = $submission->get_posted_data();
+					
+					// перевірка utm_source с використанням ассоціативного масиву
+   					 $source_mappings = [
+        			'telegram' => 'Telegram',
+        			'google' => 'Google Ads',
+        			'facebook' => 'Facebook',
+        			'email' => 'Електронна пошта',
+        			'linkedin' => 'LinkedIn',
+        			'instagram' => 'Іnstagram',
+    				];
 
-            function submit_form_data_ajax_handler()
-            {
-                $form_data = $_POST['form_data'];
+    			// отримання utm_source з данних
+    				$utm_source = !empty($posted_data['utm_source']) ? strtolower($posted_data['utm_source']) : null;
 
-                $referrer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
-                // Получение IP-адреса пользователя
-                $user_ip = $_SERVER['REMOTE_ADDR'];
+    			//спроба підбору асоційованої мітки, або Сайт якщо відсутня
+   					 $source = isset($source_mappings[$utm_source]) ? $source_mappings[$utm_source] : 'Сайт';
+                    // Удаление ненужных полей
+                    unset($posted_data['_wpcf7'], $posted_data['_wpcf7_version'], $posted_data['_wpcf7_locale'], $posted_data['_wpcf7_unit_tag'], $posted_data['_wpcf7_container_post']);
 
-                $session_utm_data = isset($_SESSION['utm_data']) ? $_SESSION['utm_data'] : [];
+                    $referrer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+                    // Получение IP-адреса пользователя
+                    $user_ip = $_SERVER['REMOTE_ADDR'];
 
-                $utm_source = isset($session_utm_data['utm_source']) ? $session_utm_data['utm_source'] : '';
-                $utm_medium = isset($session_utm_data['utm_medium']) ? $session_utm_data['utm_medium'] : '';
-                $utm_campaign = isset($session_utm_data['utm_campaign']) ? $session_utm_data['utm_campaign'] : '';
-                $utm_content = isset($session_utm_data['utm_content']) ? $session_utm_data['utm_content'] : '';
-                $utm_term = isset($session_utm_data['utm_term']) ? $session_utm_data['utm_term'] : '';
+                    $session_utm_data = isset($_SESSION['utm_data']) ? $_SESSION['utm_data'] : [];
+                    $utm_source = !empty($posted_data['utm_source']) ? $posted_data['utm_source'] : (isset($session_utm_data['utm_source']) ? $session_utm_data['utm_source'] : '');
+                    $utm_medium = !empty($posted_data['utm_medium']) ? $posted_data['utm_medium'] : (isset($session_utm_data['utm_medium']) ? $session_utm_data['utm_medium'] : '');
+                    $utm_campaign = !empty($posted_data['utm_campaign']) ? $posted_data['utm_campaign'] : (isset($session_utm_data['utm_campaign']) ? $session_utm_data['utm_campaign'] : '');
+                    $utm_content = !empty($posted_data['utm_content']) ? $posted_data['utm_content'] : (isset($session_utm_data['utm_content']) ? $session_utm_data['utm_content'] : '');
+                    $utm_term = !empty($posted_data['utm_term']) ? $posted_data['utm_term'] : (isset($session_utm_data['utm_term']) ? $session_utm_data['utm_term'] : '');
 
-                $source_mappings = [
-                    'telegram' => 'Telegram',
-                    'google' => 'Google Ads',
-                    'facebook' => 'Facebook',
-                    'email' => 'Електронна пошта',
-                    'linkedin' => 'LinkedIn',
-                    'instagram' => 'Іnstagram',
-                ];
+                    // Преобразование данных для NetHunt CRM
+                    $nethunt_data = [
+                        'timeZone' => 'Europe/Kiev',
+                        'Name' => $posted_data['your-name'] . ' ' . $posted_data['phone'],
+                        'FirstName' => $posted_data['your-name'],
+                        'LastName' => $posted_data['last-name'],
+                        'Email' => $posted_data['email'],
+                        'Phone' => $posted_data['phone'],
+                        'CooperationGoal' => $posted_data['comments_add1'] . ' ' . $posted_data['comments'] . ' ' . $posted_data['comments_add2'] . ' ' . $posted_data['selected_options'] . ' User IP: ' . $user_ip,
+                        'Source' => $source,
+						'SourceDescription' => $referrer,
+                        'UTMSource' => $utm_source,
+                        'UTMMedium' => $utm_medium,
+                        'UTMContent' => $utm_content,
+                        'UTMCampaign' => $utm_campaign,
+                        'UTMTerm' => $utm_term
+                    ];
 
-                $source = isset($source_mappings[$utm_source]) ? $source_mappings[$utm_source] : 'Сайт';
-                // Преобразование данных для NetHunt CRM
-                $nethunt_data = [
-                    'timeZone' => 'Europe/Kiev',
-                    'Name' => sanitize_text_field($form_data['your-name']) . ' ' . formatPhoneNumber($form_data['phone']),
-                    'FirstName' => sanitize_text_field($form_data['your-name']),
-                    'LastName' => sanitize_text_field($form_data['last-name']),
-                    'Email' => sanitize_text_field($form_data['email']),
-                    'Phone' => $form_data['phone'],
-                    'CooperationGoal' =>  (!empty($form_data['comments']) ? sanitize_text_field($form_data['comments']) : '') . ' ' . !empty($form_data['helpers_form']) ? sanitize_text_field($form_data['helpers_form']) : ' ' .  ' User IP: ' . $user_ip,
-                    'Source' => $source,
-                    'UTMSource' => $utm_source,
-                    'UTMMedium' => $utm_medium,
-                    'UTMContent' => $utm_content,
-                    'UTMCampaign' => $utm_campaign,
-                    'UTMTerm' => $utm_term
-                ];
-
-                $back_data = [
-                    'OPENED' => 'Y',
-                    'TITLE' => (isset($form_data['your-name']) ? $form_data['your-name'] : '') . ' ' . (isset($form_data['phone']) ? formatPhoneNumber($form_data['phone']) : ''),
-                    'NAME' => isset($form_data['your-name']) ? $form_data['your-name'] : '',
-                    'EMAIL' => array(
-                        'n0' => array(
-                            'VALUE' => isset($form_data['email']) ? $form_data['email'] : '',
-                            'VALUE_TYPE' => 'WORK',
+                    // Преобразование данных для резерву
+                    $back_data = [
+                        'OPENED' => 'Y',
+                        'TITLE' => (isset($posted_data['your-name']) ? $posted_data['your-name'] : '') . ' ' . (isset($posted_data['phone']) ? $posted_data['phone'] : ''),
+                        'NAME' => isset($posted_data['your-name']) ? $posted_data['your-name'] : '',
+                        'EMAIL' => array(
+                            'n0' => array(
+                                'VALUE' => isset($posted_data['email']) ? $posted_data['email'] : '',
+                                'VALUE_TYPE' => 'WORK',
+                            ),
                         ),
-                    ),
-                    'PHONE' => array(
-                        'n0' => array(
-                            'VALUE' => isset($form_data['phone']) ? formatPhoneNumber($form_data['phone']) : '',
-                            'VALUE_TYPE' => 'WORK',
+                        'PHONE' => array(
+                            'n0' => array(
+                                'VALUE' => isset($posted_data['phone']) ? $posted_data['phone'] : '',
+                                'VALUE_TYPE' => 'WORK',
+                            ),
                         ),
-                    ),
-                    'COMMENTS' => sanitize_text_field($form_data['comments']) . ' ' . sanitize_text_field($form_data['helpers_form']) . ' User IP: ' . $user_ip,
-                    'SOURCE_ID' => $form_data['source_id'],
-                    'SOURCE' => $source,
-                    'USER_IP' => $user_ip,
-                    'ASSIGNED_BY_ID' => 99,
-                    'SOURCE_DESCRIPTION' => $referrer,
-                    'PAGE_TITLE' => $form_data['page_title'],
-                    'DESCRIPTION' => $form_data['description'],
-                    'UTMSource' => $utm_source,
-                    'UTMMedium' => $utm_medium,
-                    'UTMContent' => $utm_content,
-                    'UTMCampaign' => $utm_campaign,
-                    'UTMTerm' => $utm_term
-                ];
+                        'COMMENTS' => $posted_data['comments_add1'] . ' ' . $posted_data['comments'] . ' ' . $posted_data['comments_add2'] . ' ' . $posted_data['selected_options'] . ' User IP: ' . $user_ip,
+                        'SOURCE_ID' => $posted_data['source_id'],
+                        'SOURCE' => $posted_data['source'],
+                        'USER_IP' => $user_ip,
+                        'ASSIGNED_BY_ID' => 99,
+                        'SOURCE_DESCRIPTION' => $referrer,
+                        'PAGE_TITLE' => $posted_data['page_title'],
+                        'DESCRIPTION' => $posted_data['description'],
+                        'UTM_SOURCE' => $utm_source,
+                        'UTM_MEDIUM' => $utm_medium,
+                        'UTM_CONTENT' => $utm_content,
+                        'UTM_CAMPAIGN' => $utm_campaign,
+                        'UTM_TERM' => $utm_term
+                    ];
 
-                // Отправка данных в NetHunt CRM
-                $response = wp_remote_post('https://nethunt.com/service/automation/hooks/658e92acebd1340009077610', [
-                    'headers' => [
-                        'Authorization' => 'Basic Y3JtaXVtLm5ldGh1bnRAZ21haWwuY29tOjM5Mjg4ZjNiLTBkM2EtNGJiNS05Yzk1LWZmMmY0MGMyYTI5Zg==',
-                        'Content-Type'  => 'application/json',
-                    ],
-                    'body' => json_encode($nethunt_data),
-                ]);
-                if (!is_wp_error($response)) {
-                    // Обработка успешной отправки в оба сервиса
-                    echo json_encode(['status' => 'success', 'message' => $response]);
-                    wp_remote_post('https://api.lanet.click/click_api/newlead', [
+                    // Отправка данных в NetHunt CRM
+                    $response = wp_remote_post('https://nethunt.com/service/automation/hooks/658e92acebd1340009077610', [
+                        'headers' => [
+                            'Authorization' => 'Basic Y3JtaXVtLm5ldGh1bnRAZ21haWwuY29tOjM5Mjg4ZjNiLTBkM2EtNGJiNS05Yzk1LWZmMmY0MGMyYTI5Zg==',
+                            'Content-Type'  => 'application/json',
+                        ],
+                        'body' => json_encode($nethunt_data),
+                    ]);
+
+                    // Логирование ответа от NetHunt CRM
+                    if (is_wp_error($response)) {
+                        file_put_contents($log_file, "Error with NetHunt: " . print_r($response->get_error_message(), true) . "\n", FILE_APPEND);
+                    } else {
+                        file_put_contents($log_file, "NetHunt Response: " . print_r($response['body'], true) . "\n", FILE_APPEND);
+                    }
+
+                    // Резервное дублирование лидов
+                    $reserve_response = wp_remote_post('https://api.lanet.click/click_api/newlead', [
                         'headers' => ['Content-Type' => 'application/json; charset=utf-8'],
                         'body' => json_encode($back_data),
                         'method' => 'POST',
-                        'data_format' => 'body',
+                        'data_format' => 'body'
                     ]);
-                    exit();
-                } else {
-                    // Обработка ошибок при отправке данных
-                    echo json_encode(['status' => 'error', 'message' => 'Произошла ошибка при отправке данных.', 'error_details' => [
-                        'netHunt_error' => is_wp_error($response) ? $response->get_error_message() : null,
-                    ]]);
-                    exit();
+                    // Резервное дублирование лидов
+                    $reserve_response = wp_remote_post('https://nethunt.com/service/automation/hooks/658e92acebd1340009077610', [
+                        'headers' => ['Content-Type' => 'application/json; charset=utf-8'],
+                        'body' => json_encode($nethunt_data),
+                        'method' => 'POST',
+                        'data_format' => 'body'
+                    ]);
+
+                    // Логирование ответа от резервной системы
+                    if (is_wp_error($reserve_response)) {
+                        file_put_contents($log_file, "Error with Reserve System: " . print_r($reserve_response->get_error_message(), true) . "\n", FILE_APPEND);
+                    } else {
+                        file_put_contents($log_file, "Reserve System Response: " . print_r($reserve_response['body'], true) . "\n", FILE_APPEND);
+                    }
+
+                    $curl = curl_init($queryURL);
+                    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+                    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+                    curl_setopt($curl, CURLOPT_URL, $queryURL);
+                    curl_setopt($curl, CURLOPT_HEADER, 0);
+                    curl_setopt($curl, CURLOPT_POST, 1);
+                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $queryData);
+                    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 1);
+                    curl_setopt($curl, CURLOPT_TIMEOUT, 1);
+
+                    $response = curl_exec($curl);
+                    curl_close($curl);
+
+                    if ($response === false) {
+                        // Обработка ошибки
+                    }
                 }
             }
             
-
-            // Добавляем кнопку "Сгенерировать Sitemap" в админ-панель WordPress
+                        // Добавляем кнопку "Сгенерировать Sitemap" в админ-панель WordPress
             add_action('admin_bar_menu', 'add_sitemap_menu_item', 999);
             function add_sitemap_menu_item($wp_admin_bar)
             {

@@ -29,19 +29,7 @@ if (!empty($image)) {
 ?>
     <div class="f-text1smm">
         <h5 class="text4f"><?php the_field('opys_zag_ssp'); ?></h5>
-        <div class="btn-first-nor">
-        <?php
-            $data_id = 4;
-            if ('en' == $current_lang) {
-                $data_id = 6;
-            } elseif ('ru' == $current_lang) {
-                $data_id = 5;
-            }
-            ?>
-          <button data-form-id="<?php echo $data_id; ?>" class="btn-first cta-b" data-form-name="first-scr-ssp">
-            <?php the_field('tekst_knopky_sli_ssp'); ?>
-          </button>
-          </div>
+        <div class="btn-first-nor"><button class="btn-first cta-b" data-form-name="first-scr-ssp"><?php the_field('tekst_knopky_sli_ssp'); ?></button></div>
 </div>
     </div>
 
@@ -351,9 +339,7 @@ $(document).ready(function() {
                         <div class="description" style="display:none;"><?php the_sub_field('tekst_dodatkovyj_tsina'); ?></div>
                         <span class="details-toggle"><?php _e( 'More', 'lanetclick' ); ?></span>
                         <div class="price"><?php the_sub_field('vartist_tsina'); ?></div>
-                        <div>
-                          <a data-form-id="<?php echo $data_id; ?>" class="order-btn cta-b" data-form-name="tarif-ssp"><?php _e( 'Order', 'lanetclick' ); ?></a>
-                        </div>
+                        <div><a class="order-btn cta-b" data-form-name="tarif-ssp"><?php _e( 'Order', 'lanetclick' ); ?></a></div>
                         <span class="hide-toggle" style="display:none;"><?php _e( 'Hide', 'lanetclick' ); ?></span>
                     </div>
                 </div>
@@ -397,7 +383,7 @@ $(document).ready(function() {
                                     <div class="description" style="display:none;"><?php the_sub_field('tekst_dodatkovyj_tsina'); ?></div>
                                     <span class="details-toggle"><?php _e( 'More', 'lanetclick' ); ?></span>
                                     <div class="price"><?php the_sub_field('vartist_tsina'); ?></div>
-                                    <div><a data-form-id="<?php echo $data_id; ?>" class="order-btn cta-b" data-form-name="tarif-ssp"><?php _e( 'Order', 'lanetclick' ); ?></a></div>
+                                    <div><a class="order-btn cta-b" data-form-name="tarif-ssp"><?php _e( 'Order', 'lanetclick' ); ?></a></div>
                                     <span class="hide-toggle" style="display:none;"><?php _e( 'Hide', 'lanetclick' ); ?></span>
                                 </div>
                             </div>
@@ -568,7 +554,7 @@ if (!empty($image)) {
         <div class="col-md-m-2">
             <h4><?php the_field('why_zag_ssp'); ?></h4>
             <p class="masthev-t"><?php the_field('why_its_tekst_ssp'); ?></p>
-            <button data-form-id="<?php echo $data_id; ?>" class="masthev-b cta-b" data-form-name="masthev-ssp"><?php the_field('tekst_na_knopczi'); ?></button>
+            <button class="masthev-b cta-b" data-form-name="masthev-ssp"><?php the_field('tekst_na_knopczi'); ?></button>
         </div>
 </div></div>
     <script>
@@ -705,7 +691,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <div class="tar-pagination"></div>
         </div>
         <div class="e-btn">
-            <a data-form-id="<?php echo $data_id; ?>" class="btn-effective cta-b" data-form-name="effective"><?php the_field('tekst_na_knopczi'); ?></a>
+            <a class="btn-effective cta-b" data-form-name="effective"><?php the_field('tekst_na_knopczi'); ?></a>
         </div>
     </div>
 </div>
@@ -781,7 +767,7 @@ document.addEventListener("DOMContentLoaded", function() {
             </div>
             <div class="col-md-3-2">
                 <div class="cta-o"><?php the_field('opys_cta'); ?></div>
-                <a data-form-id="<?php echo $data_id; ?>" class="cta-b" data-form-name="cta"><?php the_field('tekst_na_knopczi_sta'); ?></a>
+                <a class="cta-b" data-form-name="cta"><?php the_field('tekst_na_knopczi_sta'); ?></a>
             </div>
 </div>
 </div>
